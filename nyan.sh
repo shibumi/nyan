@@ -29,6 +29,18 @@
 # nyan proxy  = mkfifo backpipe; nc -l $PORT 0<backpipe | nc $ADRESS $PORT 1>backpipe
 # nyan server = nc -l -p $PORT -e $COMMAND
 
+
+function helpout()
+{
+  echo "nyan 1.0.0 - a simple GNU netcat wrapper"
+  echo "basic usage:"
+  echo "nyan get <IP> <PORT> <FILENAME>"
+  echo "nyan serve <PORT> <FILENAME>"
+  echo "nyan scan <IP> <PORT_MIN> <PORT_MAX>"
+  echo "nyan proxy <ADRESS> <PORT_SRC> <PORT_DEST>"
+  echo "nyan server <PORT> <COMMAND>"
+}
+
 function valid_ip()
 {
     #thx to Mitch Frazier ( linuxjournal.com )
@@ -94,7 +106,7 @@ case $1 in
       echo "test"
       if  valid_port $2  
       then
-        cat $file | pv -rb | nc -l -p $PORT
+        cat $3 | pv -rb | nc -l -p $2
       fi
     fi ;;
   raw) 
@@ -119,7 +131,7 @@ case $1 in
     if [ $# -eq 4 ]
     then
       echo "test"
-      if valid_ip $2 && valid_port $3 && valid_port $4
+      if valid_port $3 && valid_port $4
       then
         mkfifo backpipe; nc -l $3 0<backpipe | nc $2 $4 1>backpipe
       fi
