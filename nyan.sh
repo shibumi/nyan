@@ -26,8 +26,9 @@
 # nyan serve  = cat $file | pv -rb | nc -l -p $PORT
 # nyan raw    = nc $IP $PORT
 # nyan scan   = nc -v -n -z -w $IP $PORTRANGE
-# nyan proxy  = mkfifo backpipe; nc -l $PORT 0<backpipe | nc $ADRESS $PORT 1>backpipe
-# nyan server = nc -l -p $PORT -e $COMMAND
+# nyan proxy  = mkfifo backpipe; nc -l $PORT 0<backpipe | nc $IP $PORT 1>backpipe
+# nyan command= nc -l -p $PORT -e $COMMAND
+# nyan server = nc -l -p $PORT
 
 
 function helpout()
@@ -37,8 +38,9 @@ function helpout()
   echo "  nyan get <IP> <PORT> <FILENAME>"
   echo "  nyan serve <PORT> <FILENAME>"
   echo "  nyan scan <IP> <PORT_MIN> <PORT_MAX>"
-  echo "  nyan proxy <ADRESS> <PORT_SRC> <PORT_DEST>"
-  echo "  nyan server <PORT> <COMMAND>"
+  echo "  nyan proxy <IP> <PORT_SRC> <PORT_DEST>"
+  echo "  nyan command <PORT> <COMMAND>"
+  echo "  nyan server <PORT>
 }
 
 function valid_ip()
@@ -91,6 +93,7 @@ if [ $# -eq 0 ]
 fi
 
 case $1 in 
+
   get) 
     if [ $# -eq 4 ]
     then
@@ -98,51 +101,122 @@ case $1 in
       then
         nc $2 $3 | pv -rb > $4
       else
-        helpout
+        echo "get usage:"
+        echo "  With get you can get a file."
+        echo "  just specify IP, port and filename."
       fi
     else
-      helpout
+      echo "get usage:"
+      echo "  With get you can get a file." 
+      echo "  Just specify IP, port and filename."
     fi ;;
+
   serve) 
     if [ $# -eq 3 ]
     then
       if  valid_port $2  
       then
         cat $3 | pv -rb | nc -l -p $2
+      else
+        echo "serve usage:"
+        echo "  With serve you can serve a file."
+        echo "  Just specify port and filename."
       fi
+      else
+        echo "serve usage:"
+        echo "  With serve you can serve a file."
+        echo "  Just specify port and filename."
     fi ;;
+
   raw) 
     if [ $# -eq 3 ]
     then
       if valid_ip $2  &&  valid_port $3
       then
         nc $2 -p $3
+      else
+        echo "raw usage:"
+        echo "  With raw you can build a raw connection to a port."
+        echo "  You can do a lot of things this way."
+        echo "  For example building a peer to peer chat."
+        echo "  Just specify IP and port" 
       fi
+    else
+      echo "raw usage:"
+      echo "  With raw you can build a raw connection to a port."
+      echo "  You can do a lot of things this way."
+      echo "  For example building a peer to peer chat."
+      echo "  Just specify IP and port" 
     fi ;;
+
   scan) 
     if [ $# -eq 4 ]
     then
       if valid_ip $2 && valid_port $3 && valid_port $4
       then
         nc -v -n -z -w $2 $3-$4
+      else
+        echo "scan usage:"
+        echo "  With scan you can perform simple portscans."
+        echo "  Just specify the IP and the PORTRANGE with min and max port"
       fi
+    else
+      echo "scan usage:"
+      echo "  With scan you can perform simple portscans."
+      echo "  Just specify the IP and the PORTRANGE with min and max port"
     fi ;;
+
   proxy) 
     if [ $# -eq 4 ]
     then
-      if valid_port $3 && valid_port $4
+      if valid_ip $2 && valid_port $3 && valid_port $4
       then
         mkfifo backpipe; nc -l $3 0<backpipe | nc $2 $4 1>backpipe
+      else:
+        echo "proxy usage:"
+        echo "  With proxy you can build a simple proxy."
+        echo "  Just specify IP, source port and destination port"
       fi
+    else
+      echo "proxy usage:"
+      echo "  With proxy you can build a simple proxy."
+      echo "  Just specify IP, source port and destination port"
     fi ;;
-  server) 
+
+  command) 
     if [ $# -eq 3 ]
     then
       if valid_port $2
       then
         nc -l -p $2 -e $3
+      else
+        echo "command usage:"
+        echo "  With command you can bind a port to an executable."
+        echo "  The best example for it is: /bin/sh."
       fi
+    else
+      echo "command usage:"
+      echo "  With command you can bind a port to an executable."
+      echo "  The best example for it is: /bin/sh."
     fi ;;
+
+  server)
+    if [ $# -eq 2 ]
+    then
+      if valid_port $2
+      then
+        nc -l -p $2
+      else
+        echo "server usage:"
+        echo "  With server you can listen on a port."
+        echo "  This is useful for a simple chat connection."
+      fi
+    else
+      echo "server usage:"
+      echo "  With server you can listen on a port."
+      echo "  This is useful for a simple chat connection."
+    fi ;;
+
   *)
     helpout 
     exit 1
