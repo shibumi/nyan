@@ -29,7 +29,7 @@
 # nyan proxy  = mkfifo backpipe; nc -l $PORT 0<backpipe | nc $IP $PORT 1>backpipe
 # nyan command= nc -l -p $PORT -e $COMMAND
 # nyan server = nc -l -p $PORT
-
+# nyan http   = { echo -ne "HTTP/1.0 200 OK\r\nContent-Length: $(wc -c <some.file)\r\n\r\n"; cat some.file; } | nc -l 8080
 
 function helpout()
 {
@@ -41,6 +41,7 @@ function helpout()
   echo "  nyan proxy <IP> <PORT_SRC> <PORT_DEST>"
   echo "  nyan command <PORT> <COMMAND>"
   echo "  nyan server <PORT>"
+  echo "  nyan http <PORT> <FILENAME>"
 }
 
 function valid_ip()
@@ -215,6 +216,21 @@ case $1 in
       echo "server usage:"
       echo "  With server you can listen on a port."
       echo "  This is useful for a simple chat connection."
+    fi ;;
+
+  http)
+    if [ $# -eq 3 ]
+    then
+      if valid_port $2
+      then
+        { echo -ne "HTTP/1.0 200 OK\r\nContent-Length: $(wc -c <$3)\r\n\r\n"; cat $3; } | nc -l -p $2
+      else
+        echo "http usage:"
+        echo "  With http you can serve a file like a webserver."
+      fi
+    else
+      echo "http usage:"
+      echo "  With http you can serve a file like a webserver."
     fi ;;
 
   *)
