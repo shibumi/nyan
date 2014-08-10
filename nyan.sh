@@ -40,7 +40,7 @@ function helpout()
   echo "  nyan scan <IP> <PORT_MIN> <PORT_MAX>"
   echo "  nyan proxy <IP> <PORT_SRC> <PORT_DEST>"
   echo "  nyan command <PORT> <COMMAND>"
-  echo "  nyan server <PORT>
+  echo "  nyan server <PORT>"
 }
 
 function valid_ip()
