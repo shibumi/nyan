@@ -34,11 +34,11 @@ function helpout()
 {
   echo "nyan 1.0.0 - a simple GNU netcat wrapper"
   echo "basic usage:"
-  echo "nyan get <IP> <PORT> <FILENAME>"
-  echo "nyan serve <PORT> <FILENAME>"
-  echo "nyan scan <IP> <PORT_MIN> <PORT_MAX>"
-  echo "nyan proxy <ADRESS> <PORT_SRC> <PORT_DEST>"
-  echo "nyan server <PORT> <COMMAND>"
+  echo "  nyan get <IP> <PORT> <FILENAME>"
+  echo "  nyan serve <PORT> <FILENAME>"
+  echo "  nyan scan <IP> <PORT_MIN> <PORT_MAX>"
+  echo "  nyan proxy <ADRESS> <PORT_SRC> <PORT_DEST>"
+  echo "  nyan server <PORT> <COMMAND>"
 }
 
 function valid_ip()
@@ -86,7 +86,7 @@ function valid_port()
 
 if [ $# -eq 0 ]
   then
-    echo "usage.." >&2
+    helpout
     exit 1
 fi
 
@@ -94,16 +94,18 @@ case $1 in
   get) 
     if [ $# -eq 4 ]
     then
-      echo "nyan get..."
       if  valid_ip $2  &&  valid_port $3 
       then
         nc $2 $3 | pv -rb > $4
+      else
+        helpout
       fi
+    else
+      helpout
     fi ;;
   serve) 
     if [ $# -eq 3 ]
     then
-      echo "test"
       if  valid_port $2  
       then
         cat $3 | pv -rb | nc -l -p $2
@@ -112,7 +114,6 @@ case $1 in
   raw) 
     if [ $# -eq 3 ]
     then
-      echo "test"
       if valid_ip $2  &&  valid_port $3
       then
         nc $2 -p $3
@@ -121,7 +122,6 @@ case $1 in
   scan) 
     if [ $# -eq 4 ]
     then
-      echo "test"
       if valid_ip $2 && valid_port $3 && valid_port $4
       then
         nc -v -n -z -w $2 $3-$4
@@ -130,7 +130,6 @@ case $1 in
   proxy) 
     if [ $# -eq 4 ]
     then
-      echo "test"
       if valid_port $3 && valid_port $4
       then
         mkfifo backpipe; nc -l $3 0<backpipe | nc $2 $4 1>backpipe
@@ -139,13 +138,12 @@ case $1 in
   server) 
     if [ $# -eq 3 ]
     then
-      echo "test"
       if valid_port $2
       then
         nc -l -p $2 -e $3
       fi
     fi ;;
-  *) 
-    echo "usage.." >&2
+  *)
+    helpout 
     exit 1
 esac
