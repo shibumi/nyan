@@ -34,9 +34,24 @@
 function helpout()
 {
   echo "nyan 1.0.0 - a simple GNU netcat wrapper"
+  echo "  +      o     +              o   "
+  echo "    +             o     +       + "
+  echo "o          +                      "
+  echo "    o  +           +        +     "
+  echo "+        o     o       +        o "
+  echo "-_-_-_-_-_-_-_,------,      o     "
+  echo "_-_-_-_-_-_-_-|   /\_/\           "
+  echo "-_-_-_-_-_-_-~|__( ^ .^)  +     + " 
+  echo "_-_-_-_-_-_-_-\"\"  \"\"          "
+  echo "+      o         o   +       o    "
+  echo "   +         +                    "
+  echo "o        o         o      o     + "
+  echo "   o           +                  "
+  echo "+      +     o        o      +    "
   echo "basic usage:"
   echo "  nyan get <IP> <PORT> <FILENAME>"
   echo "  nyan serve <PORT> <FILENAME>"
+  echo "  nyan raw <IP> <PORT>"
   echo "  nyan scan <IP> <PORT_MIN> <PORT_MAX>"
   echo "  nyan proxy <IP> <PORT_SRC> <PORT_DEST>"
   echo "  nyan command <PORT> <COMMAND>"
@@ -105,11 +120,15 @@ case $1 in
         echo "get usage:"
         echo "  With get you can get a file."
         echo "  just specify IP, port and filename."
+        echo ""
+        echo "  nyan get <IP> <PORT> <FILENAME>"
       fi
     else
       echo "get usage:"
       echo "  With get you can get a file." 
       echo "  Just specify IP, port and filename."
+      echo ""
+      echo "  nyan get <IP> <PORT> <FILENAME>"
     fi ;;
 
   serve) 
@@ -122,11 +141,15 @@ case $1 in
         echo "serve usage:"
         echo "  With serve you can serve a file."
         echo "  Just specify port and filename."
+        echo ""
+        echo "  nyan serve <PORT> <FILENAME>"
       fi
       else
         echo "serve usage:"
         echo "  With serve you can serve a file."
         echo "  Just specify port and filename."
+        echo ""
+        echo "  nyan serve <PORT> <FILENAME>"
     fi ;;
 
   raw) 
@@ -141,6 +164,8 @@ case $1 in
         echo "  You can do a lot of things this way."
         echo "  For example building a peer to peer chat."
         echo "  Just specify IP and port" 
+        echo ""
+        echo "  nyan raw <IP> <PORT>"
       fi
     else
       echo "raw usage:"
@@ -148,6 +173,8 @@ case $1 in
       echo "  You can do a lot of things this way."
       echo "  For example building a peer to peer chat."
       echo "  Just specify IP and port" 
+      echo ""
+      echo "  nyan raw <IP> <PORT>"
     fi ;;
 
   scan) 
@@ -160,11 +187,15 @@ case $1 in
         echo "scan usage:"
         echo "  With scan you can perform simple portscans."
         echo "  Just specify the IP and the PORTRANGE with min and max port"
+        echo ""
+        echo "  nyan scan <IP> <PORT_MIN> <PORT_MAX>"
       fi
     else
       echo "scan usage:"
       echo "  With scan you can perform simple portscans."
       echo "  Just specify the IP and the PORTRANGE with min and max port"
+      echo ""
+      echo "  nyan scan <IP> <PORT_MIN> <PORT_MAX>"
     fi ;;
 
   proxy) 
@@ -177,11 +208,15 @@ case $1 in
         echo "proxy usage:"
         echo "  With proxy you can build a simple proxy."
         echo "  Just specify IP, source port and destination port"
+        echo ""
+        echo "  nyan proxy <IP> <PORT_SRC> <PORT_DEST>"
       fi
     else
       echo "proxy usage:"
       echo "  With proxy you can build a simple proxy."
       echo "  Just specify IP, source port and destination port"
+      echo ""
+      echo "  nyan proxy <IP> <PORT_SRC> <PORT_DEST>"
     fi ;;
 
   command) 
@@ -194,11 +229,15 @@ case $1 in
         echo "command usage:"
         echo "  With command you can bind a port to an executable."
         echo "  The best example for it is: /bin/sh."
+        echo ""
+        echo "  nyan command <PORT> <COMMAND>"
       fi
     else
       echo "command usage:"
       echo "  With command you can bind a port to an executable."
       echo "  The best example for it is: /bin/sh."
+      echo ""
+      echo "  nyan command <PORT> <COMMAND>"
     fi ;;
 
   server)
@@ -211,11 +250,15 @@ case $1 in
         echo "server usage:"
         echo "  With server you can listen on a port."
         echo "  This is useful for a simple chat connection."
+        echo ""
+        echo "  nyan server <PORT>"
       fi
     else
       echo "server usage:"
       echo "  With server you can listen on a port."
       echo "  This is useful for a simple chat connection."
+      echo ""
+      echo "  nyan server <PORT>"
     fi ;;
 
   http)
@@ -227,10 +270,14 @@ case $1 in
       else
         echo "http usage:"
         echo "  With http you can serve a file like a webserver."
+        echo ""
+        echo "  nyan http <PORT> <FILENAME>"
       fi
     else
       echo "http usage:"
       echo "  With http you can serve a file like a webserver."
+      echo ""
+      echo "  nyan http <PORT> <FILENAME>"
     fi ;;
 
   *)
