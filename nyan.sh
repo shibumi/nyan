@@ -25,7 +25,7 @@
 # nyan get    = nc $IP $PORT  | pv -rb > $FILE
 # nyan serve  = cat $file | pv -rb | nc -l -p $PORT
 # nyan raw    = nc $IP $PORT
-# nyan scan   = nc -v -n -z -w $IP $PORTRANGE
+# nyan scan   = nc -v -n -z -w 1 $IP $PORTRANGE
 # nyan proxy  = mkfifo backpipe; nc -l $PORT 0<backpipe | nc $IP $PORT 1>backpipe
 # nyan command= nc -l -p $PORT -e $COMMAND
 # nyan server = nc -l -p $PORT
@@ -182,7 +182,7 @@ case $1 in
     then
       if valid_ip $2 && valid_port $3 && valid_port $4
       then
-        nc -v -n -z -w $2 $3-$4
+        nc -v -n -z -w 1 $2 $3-$4
       else
         echo "scan usage:"
         echo "  With scan you can perform simple portscans."
