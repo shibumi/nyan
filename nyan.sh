@@ -30,10 +30,11 @@
 # nyan command= nc -l -p $PORT -e $COMMAND
 # nyan server = nc -l -p $PORT
 # nyan http   = { echo -ne "HTTP/1.0 200 OK\r\nContent-Length: $(wc -c <some.file)\r\n\r\n"; cat some.file; } | nc -l 8080
+# nyan forward= nc -L $IP:$PORT -p $LOCALPORT
 
 function helpout()
 {
-  echo "nyan 1.0.1 - a simple GNU netcat wrapper"
+  echo "nyan 1.1.0 - a simple GNU netcat wrapper"
   echo "  +      o     +              o   "
   echo "    +             o     +       + "
   echo "o          +                      "
@@ -57,6 +58,7 @@ function helpout()
   echo "  nyan command <PORT> <COMMAND>"
   echo "  nyan server <PORT>"
   echo "  nyan http <PORT> <FILENAME>"
+  echo "  nyan forward <IP> <PORT> <LOCALPORT>"
 }
 
 function valid_ip()
@@ -77,7 +79,7 @@ function valid_ip()
     return $stat
 }
 
-function valid_port()
+function valid_localport()
 {
   re='^[0-9]+$'
   if ! [[ $1 =~ $re ]] 
@@ -102,6 +104,21 @@ function valid_port()
   fi
 }
 
+function valid_port()
+{
+  re='^[0-9]+$'
+  if ! [[ $1 =~ $re ]]
+  then
+    echo "[-] Port is not a number" >&2; exit 1
+  fi
+
+  if [[ $1 -gt 65535 ]]
+  then
+    echo "[-] port is out of range" >&2
+    exit 1
+  fi
+}
+
 if [ $# -eq 0 ]
   then
     helpout
@@ -115,7 +132,10 @@ case $1 in
     then
       if  valid_ip $2  &&  valid_port $3 
       then
+        echo "[+] getting file.."
         nc $2 $3 | pv -rb > $4
+        echo "[+] generating checksum.."
+        md5sum $4
       else
         echo "get usage:"
         echo "  With get you can get a file."
@@ -134,8 +154,11 @@ case $1 in
   serve) 
     if [ $# -eq 3 ]
     then
-      if  valid_port $2  
+      if  valid_localport $2  
       then
+        echo "[+] Generating checksum..."
+        md5sum $3
+        echo "[+] serving file..."
         cat $3 | pv -rb | nc -l -p $2
       else
         echo "serve usage:"
@@ -222,7 +245,7 @@ case $1 in
   command) 
     if [ $# -eq 3 ]
     then
-      if valid_port $2
+      if valid_localport $2
       then
         nc -l -p $2 -e $3
       else
@@ -243,7 +266,7 @@ case $1 in
   server)
     if [ $# -eq 2 ]
     then
-      if valid_port $2
+      if valid_localport $2
       then
         nc -l -p $2
       else
@@ -264,7 +287,7 @@ case $1 in
   http)
     if [ $# -eq 3 ]
     then
-      if valid_port $2
+      if valid_localport $2
       then
         { echo -ne "HTTP/1.0 200 OK\r\nContent-Length: $(wc -c <$3)\r\n\r\n"; cat $3; } | nc -l -p $2
       else
@@ -278,6 +301,27 @@ case $1 in
       echo "  With http you can serve a file like a webserver."
       echo ""
       echo "  nyan http <PORT> <FILENAME>"
+    fi ;;
+
+  forward)
+    if [ $# -eq 4 ]
+    then
+      if valid_ip $2 && valid_port $3 && valid_localport $4
+      then
+        nc -L $2:$3 -p $4
+      else
+        echo "forward usage:"
+        echo "  forwards a remote port from a remote adress"
+        echo "  to a local port."
+        echo ""
+        echo "  nyan forward <IP> <PORT> <LOCALPORT>"
+      fi
+    else
+      echo "forward usage:"
+      echo "  forwards a remote port from a remote adress"
+      echo "  to a local port."
+      echo ""
+      echo "  nyan forward <IP> <PORT> <LOCALPORT>"
     fi ;;
 
   *)
