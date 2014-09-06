@@ -33,7 +33,7 @@
 
 function helpout()
 {
-  echo "nyan 1.0.0 - a simple GNU netcat wrapper"
+  echo "nyan 1.0.1 - a simple GNU netcat wrapper"
   echo "  +      o     +              o   "
   echo "    +             o     +       + "
   echo "o          +                      "
@@ -157,7 +157,7 @@ case $1 in
     then
       if valid_ip $2  &&  valid_port $3
       then
-        nc $2 -p $3
+        nc $2 $3
       else
         echo "raw usage:"
         echo "  With raw you can build a raw connection to a port."
