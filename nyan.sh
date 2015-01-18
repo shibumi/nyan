@@ -135,7 +135,7 @@ case $1 in
         echo "[+] getting file.."
         nc $2 $3 | pv -rb > $4
         echo "[+] generating checksum.."
-        md5sum $4
+        sha256sum $4
       else
         echo "get usage:"
         echo "  With get you can get a file."
@@ -157,7 +157,7 @@ case $1 in
       if  valid_localport $2  
       then
         echo "[+] Generating checksum..."
-        md5sum $3
+        sha256sum $3
         echo "[+] serving file..."
         cat $3 | pv -rb | nc -l -p $2
       else
