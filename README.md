@@ -7,7 +7,7 @@ a simple netcat wrapper
 
 * gnu-netcat
 * pv
-* sha256sum
+* sha512sum
 
 
 **Version History**

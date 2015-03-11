@@ -34,7 +34,7 @@
 
 function helpout()
 {
-  echo "nyan 1.1.0 - a simple GNU netcat wrapper"
+  echo "nyan 1.2.0 - a simple GNU netcat wrapper"
   echo "  +      o     +              o   "
   echo "    +             o     +       + "
   echo "o          +                      "
