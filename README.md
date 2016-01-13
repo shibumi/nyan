@@ -18,4 +18,4 @@ a simple netcat wrapper
                 attached forward function  
                 attached md5sum checksum  
                 distinquish between local and remote port  
-* Version 1.2.0 changed hash algorithm: md5sum -> sha256sum
+* Version 1.2.0 changed hash algorithm: md5sum -> sha512sum
