@@ -1,0 +1,75 @@
+
+.TH "NYAN" "1" "10/17/2016" "1.0" "Nyan Manual"
+.SH "NAME"
+nyan \- a simple netcat wrapper
+.SH "SYNOPSIS"
+nyan <command> [<command arguments>]
+.SH "DESCRIPTION"
+Nyan wraps common \fBnetcat\fR use-cases in one tool with easy and remindable
+syntax. 
+.SH "COMMANDS"
+.PP 
+\fIget\fR <IP> <PORT> <FILENAME>
+.RS 4
+Acts as client and gets a file from a server. When the file has arrived just
+press <CTRL+C> to exit nyan. IP specifies the servers IP-address in IPv4
+format. PORT specifies the target port and FILENAME the output file.
+.RE
+.PP 
+\fIserve\fR <PORT> <FILENAME>
+.RS 4
+Acts as server and serves a file for a nyan client. PORT specifies the
+port on which the file shall be served. FILENAME refers to the file
+that will be transmitted.
+.RE
+.PP 
+\fIraw\fR <IP> <PORT>
+.RS 4
+Acts as a client and opens a raw connection to specific IP and PORT.
+.RE
+.PP 
+\fIscan\fR <IP> <PORT_MIN> <PORT_MAX> 
+.RS 4
+Acts as a simple portscanner. IP refers to the target. PORT_MIN is the
+lowest port and PORT_MAX is the highest. See \fBEXAMPLES\fR for more.
+.RE
+.PP 
+\fIproxy\fR <IP> <PORT_SRC> <PORT_DEST>
+.RS 4
+Acts as a server and proxies traffic from the source port (PORT_SRC) to
+the target (IP, PORT_DEST).
+.RE
+.PP 
+\fIcommand\fR <PORT> <SHELLCOMMAND>
+.RS 4
+Acts as a server and binds a shellcommand on a port.
+.RE
+.PP 
+\fIserver\fR <PORT>
+.RS 4
+Acts as a raw server and listens on a specified port.
+.RE
+.PP 
+\fIhttp\fR <PORT> <FILENAME>
+.RS 4
+Acts a server and serves a file like a http-server. PORT refers to the
+port on which the file shall be served and FILENAME refers to the file
+that will be shared.
+.RE
+.PP 
+\fIforward\fR <IP> <PORT> <LOCALPORT>
+.RS 4
+forwards a remote port from a remote adress to a local port. 
+.RE
+.SH "EXAMPLES"
+.PP
+\fInyan scan 192.168.1.1 20 80\fR
+.RS 4
+Scans the target 192.168.1.1 on all ports from 20 to 80.
+.RE
+.PP
+
+.SH "SEE ALSO"
+\fBnetcat\fR(1)
+.SH "AUTHOR"
+Christian Rebischke (chris.rebischke@archlinux.org)

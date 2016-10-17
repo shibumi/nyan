@@ -138,15 +138,15 @@ case $1 in
         sha512sum $4
       else
         echo "get usage:"
-        echo "  With get you can get a file."
-        echo "  just specify IP, port and filename."
+        echo "Acts  as client and gets a file from a server. When the file has arrived just press <CTRL+C> to exit nyan. 
+              IP specifies the servers IP-address in IPv4 format. PORT specifies the target port and FILENAME the output file."
         echo ""
         echo "  nyan get <IP> <PORT> <FILENAME>"
       fi
     else
       echo "get usage:"
-      echo "  With get you can get a file." 
-      echo "  Just specify IP, port and filename."
+      echo "Acts  as client and gets a file from a server. When the file has arrived just press <CTRL+C> to exit nyan." 
+      echo "IP specifies the servers IP-address in IPv4 format. PORT specifies the target port and FILENAME the output file."
       echo ""
       echo "  nyan get <IP> <PORT> <FILENAME>"
     fi ;;
@@ -162,15 +162,15 @@ case $1 in
         cat $3 | pv -rb | nc -l -p $2
       else
         echo "serve usage:"
-        echo "  With serve you can serve a file."
-        echo "  Just specify port and filename."
+        echo "Acts as server and serves a file for a nyan client. PORT specifies the port on which the file shall be served."
+        echo "FILENAME refers to the file that will be transmitted."
         echo ""
         echo "  nyan serve <PORT> <FILENAME>"
       fi
       else
         echo "serve usage:"
-        echo "  With serve you can serve a file."
-        echo "  Just specify port and filename."
+        echo "Acts as server and serves a file for a nyan client. PORT specifies the port on which the file shall be served."
+        echo "FILENAME refers to the file that will be transmitted."
         echo ""
         echo "  nyan serve <PORT> <FILENAME>"
     fi ;;
@@ -209,14 +209,14 @@ case $1 in
       else
         echo "scan usage:"
         echo "  With scan you can perform simple portscans."
-        echo "  Just specify the IP and the PORTRANGE with min and max port"
+        echo "  Just specify the IP and the portrange with min and max port"
         echo ""
         echo "  nyan scan <IP> <PORT_MIN> <PORT_MAX>"
       fi
     else
       echo "scan usage:"
       echo "  With scan you can perform simple portscans."
-      echo "  Just specify the IP and the PORTRANGE with min and max port"
+      echo "  Just specify the IP and the portrange with min and max port"
       echo ""
       echo "  nyan scan <IP> <PORT_MIN> <PORT_MAX>"
     fi ;;
