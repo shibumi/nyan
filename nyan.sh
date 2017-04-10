@@ -42,7 +42,7 @@ function helpout()
   echo "+        o     o       +        o "
   echo "-_-_-_-_-_-_-_,------,      o     "
   echo "_-_-_-_-_-_-_-|   /\_/\           "
-  echo "-_-_-_-_-_-_-~|__( ^ .^)  +     + " 
+  echo "-_-_-_-_-_-_-~|__( ^ .^)  +     + "
   echo "_-_-_-_-_-_-_-\"\"  \"\"          "
   echo "+      o         o   +       o    "
   echo "   +         +                    "
@@ -82,7 +82,7 @@ function valid_ip()
 function valid_localport()
 {
   re='^[0-9]+$'
-  if ! [[ $1 =~ $re ]] 
+  if ! [[ $1 =~ $re ]]
   then
     echo "[-] Port is not a number" >&2; exit 1
   fi
@@ -96,7 +96,7 @@ function valid_localport()
     fi
   else
     if [[ $1 -lt 1024 || $1 -gt 65535 ]]
-    then 
+    then
       echo "[-] port is out of range" >&2
       echo "[-] as normal user you can only specify ports between 1024 and 65535" >&2
       exit 1
@@ -125,12 +125,12 @@ if [ $# -eq 0 ]
     exit 1
 fi
 
-case $1 in 
+case $1 in
 
-  get) 
+  get)
     if [ $# -eq 4 ]
     then
-      if  valid_ip $2  &&  valid_port $3 
+      if  valid_ip $2  &&  valid_port $3
       then
         echo "[+] getting file.."
         nc $2 $3 | pv -rb > $4
@@ -138,23 +138,23 @@ case $1 in
         sha512sum $4
       else
         echo "get usage:"
-        echo "Acts  as client and gets a file from a server. When the file has arrived just press <CTRL+C> to exit nyan. 
+        echo "Acts  as client and gets a file from a server. When the file has arrived just press <CTRL+C> to exit nyan.
               IP specifies the servers IP-address in IPv4 format. PORT specifies the target port and FILENAME the output file."
         echo ""
         echo "  nyan get <IP> <PORT> <FILENAME>"
       fi
     else
       echo "get usage:"
-      echo "Acts  as client and gets a file from a server. When the file has arrived just press <CTRL+C> to exit nyan." 
+      echo "Acts  as client and gets a file from a server. When the file has arrived just press <CTRL+C> to exit nyan."
       echo "IP specifies the servers IP-address in IPv4 format. PORT specifies the target port and FILENAME the output file."
       echo ""
       echo "  nyan get <IP> <PORT> <FILENAME>"
     fi ;;
 
-  serve) 
+  serve)
     if [ $# -eq 3 ]
     then
-      if  valid_localport $2  
+      if  valid_localport $2
       then
         echo "[+] Generating checksum..."
         sha512sum $3
@@ -175,7 +175,7 @@ case $1 in
         echo "  nyan serve <PORT> <FILENAME>"
     fi ;;
 
-  raw) 
+  raw)
     if [ $# -eq 3 ]
     then
       if valid_ip $2  &&  valid_port $3
@@ -186,7 +186,7 @@ case $1 in
         echo "  With raw you can build a raw connection to a port."
         echo "  You can do a lot of things this way."
         echo "  For example building a peer to peer chat."
-        echo "  Just specify IP and port" 
+        echo "  Just specify IP and port"
         echo ""
         echo "  nyan raw <IP> <PORT>"
       fi
@@ -195,12 +195,12 @@ case $1 in
       echo "  With raw you can build a raw connection to a port."
       echo "  You can do a lot of things this way."
       echo "  For example building a peer to peer chat."
-      echo "  Just specify IP and port" 
+      echo "  Just specify IP and port"
       echo ""
       echo "  nyan raw <IP> <PORT>"
     fi ;;
 
-  scan) 
+  scan)
     if [ $# -eq 4 ]
     then
       if valid_ip $2 && valid_port $3 && valid_port $4
@@ -221,7 +221,7 @@ case $1 in
       echo "  nyan scan <IP> <PORT_MIN> <PORT_MAX>"
     fi ;;
 
-  proxy) 
+  proxy)
     if [ $# -eq 4 ]
     then
       if valid_ip $2 && valid_port $3 && valid_port $4
@@ -242,7 +242,7 @@ case $1 in
       echo "  nyan proxy <IP> <PORT_SRC> <PORT_DEST>"
     fi ;;
 
-  command) 
+  command)
     if [ $# -eq 3 ]
     then
       if valid_localport $2
@@ -325,6 +325,6 @@ case $1 in
     fi ;;
 
   *)
-    helpout 
+    helpout
     exit 1
 esac
